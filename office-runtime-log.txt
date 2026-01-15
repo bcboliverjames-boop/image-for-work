@@ -31,3 +31,6 @@
 2026/1/14 20:58:55.845	Monitorable	WebApplicationInfo	SSO failed with "13007" error code.		
 2026/1/14 21:11:32.380	Medium	Add-in manifest parsing starting.			
 2026/1/14 21:11:32.383	Monitorable	Manifest	Issue encountered while parsing manifest, add-in ID : 7e2ca603-00d1-4fcd-8187-926a83703522, Location: Error at element "VersionOverrides" : Manifest override with unsupported requirements or no supported extension points ignored: http://schemas.microsoft.com/office/taskpaneappversionoverrides, VersionOverridesV1_0, Line=40, CharPosition=5		
+2026/1/15 20:18:49.531	Medium	Add-in manifest parsing starting.			
+2026/1/15 20:18:49.540	Medium	Add-in manifest parsing starting.			
+2026/1/15 20:18:49.549	Medium	Add-in manifest parsing starting.			

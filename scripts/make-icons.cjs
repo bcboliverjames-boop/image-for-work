@@ -116,7 +116,7 @@ function createPNG(width, height) {
 }
 
 // 生成各尺寸图标
-const sizes = [16, 32, 80, 128];
+const sizes = [16, 32, 64, 80, 128];
 
 for (const size of sizes) {
   const png = createPNG(size, size);

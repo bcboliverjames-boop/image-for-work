@@ -22,7 +22,7 @@
 
   <!-- 鏇挎崲涓轰綘鐨?GitHub Pages URL -->
   <IconUrl DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/assets/icon-80.png"/>
+  <HighResolutionIconUrl DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/assets/icon-64.png"/>
   <SupportUrl DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/support.html"/>
 
   <AppDomains>
