@@ -115,8 +115,8 @@ function createPNG(width, height) {
   return Buffer.concat([signature, ihdr, idat, iend]);
 }
 
-// 生成各尺寸图标
-const sizes = [16, 32, 64, 80, 128];
+// 生成各尺寸图标 (300 用于商城)
+const sizes = [16, 32, 64, 80, 128, 300];
 
 for (const size of sizes) {
   const png = createPNG(size, size);
