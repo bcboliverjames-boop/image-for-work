@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate PNG Icons</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .icon-container { margin: 20px 0; }
+    canvas { border: 1px solid #ccc; margin: 5px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    a { display: inline-block; margin: 5px; padding: 8px 16px; background: #4A7DC4; color: white; text-decoration: none; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Office Paste Width - Icon Generator</h1>
+  <p>Click the buttons below to download PNG icons for the add-in.</p>
+  
+  <div class="icon-container">
+    <h3>Preview:</h3>
+    <canvas id="icon16" width="16" height="16"></canvas>
+    <canvas id="icon32" width="32" height="32"></canvas>
+    <canvas id="icon80" width="80" height="80"></canvas>
+    <canvas id="icon128" width="128" height="128"></canvas>
+  </div>
+  
+  <div id="downloads">
+    <h3>Download:</h3>
+  </div>
+
+  <script>
+    const sizes = [16, 32, 80, 128];
+    
+    function drawIcon(ctx, size) {
+      const scale = size / 16;
+      
+      // Clear background (transparent)
+      ctx.clearRect(0, 0, size, size);
+      
+      // Orange dashed rectangle
+      ctx.strokeStyle = '#E67E22';
+      ctx.lineWidth = Math.max(1, 1.2 * scale);
+      ctx.setLineDash([2 * scale, 1 * scale]);
+      ctx.beginPath();
+      ctx.roundRect(1 * scale, 2 * scale, 10 * scale, 8 * scale, 0.5 * scale);
+      ctx.stroke();
+      
+      // Blue mouse pointer
+      ctx.fillStyle = '#4A7DC4';
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(9 * scale, 7 * scale);
+      ctx.lineTo(9 * scale, 14 * scale);
+      ctx.lineTo(11 * scale, 12 * scale);
+      ctx.lineTo(13 * scale, 15 * scale);
+      ctx.lineTo(14 * scale, 14 * scale);
+      ctx.lineTo(12 * scale, 11 * scale);
+      ctx.lineTo(14 * scale, 10 * scale);
+      ctx.closePath();
+      ctx.fill();
+    }
+    
+    // Draw all icons
+    sizes.forEach(size => {
+      const canvas = document.getElementById('icon' + size);
+      const ctx = canvas.getContext('2d');
+      drawIcon(ctx, size);
+      
+      // Create download link
+      const link = document.createElement('a');
+      link.download = `icon-${size}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.textContent = `Download icon-${size}.png`;
+      document.getElementById('downloads').appendChild(link);
+    });
+  </script>
+</body>
+</html>

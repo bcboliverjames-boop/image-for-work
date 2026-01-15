@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="90" viewBox="0 0 120 90">
+  <!-- 橙色虚线矩形框 -->
+  <rect x="6" y="6" width="85" height="55" fill="none" stroke="#E67E22" stroke-width="5" stroke-dasharray="10,5" rx="3" stroke-linecap="round"/>
+  <!-- 蓝色鼠标指针 -->
+  <polygon points="70,50 70,85 80,75 88,88 93,85 85,72 95,68" fill="#5B8BD4"/>
+</svg>

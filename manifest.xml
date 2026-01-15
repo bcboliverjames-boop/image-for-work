@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+           xsi:type="TaskPaneApp">
+
+  <Id>0f6e5c23-3c79-4d9a-b015-7c8b6068da3c</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>OfficePasteWidth</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+
+  <DisplayName DefaultValue="Office Paste Width"/>
+  <Description DefaultValue="Automatically resize pasted images to a target width in Word, PowerPoint, and Excel."/>
+
+  <IconUrl DefaultValue="https://raw.githubusercontent.com/OfficeDev/Office-Addin-TaskPane-JS/master/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://raw.githubusercontent.com/OfficeDev/Office-Addin-TaskPane-JS/master/assets/icon-80.png"/>
+  <SupportUrl DefaultValue="https://example.com/support"/>
+
+  <AppDomains>
+    <AppDomain>https://localhost:3002</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Document"/>
+    <Host Name="Workbook"/>
+    <Host Name="Presentation"/>
+  </Hosts>
+
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="AddinCommands" MinVersion="1.1" />
+    </Sets>
+  </Requirements>
+
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://localhost:3002/taskpane.html"/>
+  </DefaultSettings>
+
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.1">
+        <bt:Set Name="AddinCommands" MinVersion="1.1" />
+      </bt:Sets>
+    </Requirements>
+    <Hosts>
+      <Host xsi:type="Document">
+        <DesktopFormFactor>
+          <FunctionFile resid="opw.functionFileUrl" />
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="opw.group.word">
+                <Label resid="opw.groupLabel" />
+                <Icon>
+                  <bt:Image size="16" resid="opw.icon16" />
+                  <bt:Image size="32" resid="opw.icon32" />
+                  <bt:Image size="80" resid="opw.icon80" />
+                </Icon>
+                <Control xsi:type="Button" id="opw.openTaskpane.word">
+                  <Label resid="opw.buttonLabel" />
+                  <Supertip>
+                    <Title resid="opw.buttonLabel" />
+                    <Description resid="opw.buttonDesc" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="opw.icon16" />
+                    <bt:Image size="32" resid="opw.icon32" />
+                    <bt:Image size="80" resid="opw.icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonTaskpane</TaskpaneId>
+                    <SourceLocation resid="opw.taskpaneUrl" />
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+
+      <Host xsi:type="Workbook">
+        <DesktopFormFactor>
+          <FunctionFile resid="opw.functionFileUrl" />
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="opw.group.excel">
+                <Label resid="opw.groupLabel" />
+                <Icon>
+                  <bt:Image size="16" resid="opw.icon16" />
+                  <bt:Image size="32" resid="opw.icon32" />
+                  <bt:Image size="80" resid="opw.icon80" />
+                </Icon>
+                <Control xsi:type="Button" id="opw.openTaskpane.excel">
+                  <Label resid="opw.buttonLabel" />
+                  <Supertip>
+                    <Title resid="opw.buttonLabel" />
+                    <Description resid="opw.buttonDesc" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="opw.icon16" />
+                    <bt:Image size="32" resid="opw.icon32" />
+                    <bt:Image size="80" resid="opw.icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonTaskpane</TaskpaneId>
+                    <SourceLocation resid="opw.taskpaneUrl" />
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+
+      <Host xsi:type="Presentation">
+        <DesktopFormFactor>
+          <FunctionFile resid="opw.functionFileUrl" />
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="opw.group.ppt">
+                <Label resid="opw.groupLabel" />
+                <Icon>
+                  <bt:Image size="16" resid="opw.icon16" />
+                  <bt:Image size="32" resid="opw.icon32" />
+                  <bt:Image size="80" resid="opw.icon80" />
+                </Icon>
+                <Control xsi:type="Button" id="opw.openTaskpane.ppt">
+                  <Label resid="opw.buttonLabel" />
+                  <Supertip>
+                    <Title resid="opw.buttonLabel" />
+                    <Description resid="opw.buttonDesc" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="opw.icon16" />
+                    <bt:Image size="32" resid="opw.icon32" />
+                    <bt:Image size="80" resid="opw.icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonTaskpane</TaskpaneId>
+                    <SourceLocation resid="opw.taskpaneUrl" />
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="opw.icon16" DefaultValue="https://raw.githubusercontent.com/OfficeDev/Office-Addin-TaskPane-JS/master/assets/icon-16.png" />
+        <bt:Image id="opw.icon32" DefaultValue="https://raw.githubusercontent.com/OfficeDev/Office-Addin-TaskPane-JS/master/assets/icon-32.png" />
+        <bt:Image id="opw.icon80" DefaultValue="https://raw.githubusercontent.com/OfficeDev/Office-Addin-TaskPane-JS/master/assets/icon-80.png" />
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="opw.taskpaneUrl" DefaultValue="https://localhost:3002/taskpane.html" />
+        <bt:Url id="opw.functionFileUrl" DefaultValue="https://localhost:3002/commands.html" />
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="opw.groupLabel" DefaultValue="Paste Width" />
+        <bt:String id="opw.buttonLabel" DefaultValue="Paste Width" />
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="opw.buttonDesc" DefaultValue="Open the pane to enable automatic resize of pasted images." />
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>

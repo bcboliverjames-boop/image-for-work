@@ -1,0 +1,23 @@
+{
+  "name": "office-paste-width-addin",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node ./scripts/dev.mjs",
+    "build": "vite build",
+    "preview": "vite preview --https",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/office-js": "^1.0.0",
+    "fast-check": "^3.15.0",
+    "jsdom": "^27.4.0",
+    "office-addin-dev-certs": "^1.13.0",
+    "typescript": "^5.4.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.6.0"
+  }
+}

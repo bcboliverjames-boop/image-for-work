@@ -1,0 +1,33 @@
+2026/1/14 20:40:41.171	Medium	Web Add-In Runtime Logging Session Started			
+2026/1/14 20:40:41.171	Medium	Add-in manifest parsing starting.			
+2026/1/14 20:40:41.178	Medium	Add-in manifest parsing starting.			
+2026/1/14 20:40:41.874	Medium	Add-in manifest parsing starting.			
+2026/1/14 20:40:41.934	Medium	Add-in manifest parsing starting.			
+2026/1/14 20:57:58.187	Medium	Add-in manifest parsing starting.			
+2026/1/14 20:57:58.190	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
+2026/1/14 20:57:58.190	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
+2026/1/14 20:57:58.190	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
+2026/1/14 20:57:58.191	Medium	Add-in manifest parsing starting.			
+2026/1/14 20:57:58.191	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
+2026/1/14 20:57:58.191	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
+2026/1/14 20:57:58.191	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
+2026/1/14 20:57:58.192	Medium	Add-in manifest parsing starting.			
+2026/1/14 20:57:58.192	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
+2026/1/14 20:57:58.192	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
+2026/1/14 20:57:58.192	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
+2026/1/14 20:57:58.192	Medium	Add-in manifest parsing starting.			
+2026/1/14 20:57:58.193	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
+2026/1/14 20:57:58.193	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
+2026/1/14 20:57:58.193	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
+2026/1/14 20:58:05.507	Medium	Add-in manifest parsing starting.			
+2026/1/14 20:58:05.508	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
+2026/1/14 20:58:05.508	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
+2026/1/14 20:58:05.508	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
+2026/1/14 20:58:05.511	Medium	Add-in manifest parsing starting.			
+2026/1/14 20:58:05.512	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
+2026/1/14 20:58:05.512	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
+2026/1/14 20:58:05.512	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
+2026/1/14 20:58:27.723	Monitorable	WebApplicationInfo	SSO failed with "13007" error code.		
+2026/1/14 20:58:55.845	Monitorable	WebApplicationInfo	SSO failed with "13007" error code.		
+2026/1/14 21:11:32.380	Medium	Add-in manifest parsing starting.			
+2026/1/14 21:11:32.383	Monitorable	Manifest	Issue encountered while parsing manifest, add-in ID : 7e2ca603-00d1-4fcd-8187-926a83703522, Location: Error at element "VersionOverrides" : Manifest override with unsupported requirements or no supported extension points ignored: http://schemas.microsoft.com/office/taskpaneappversionoverrides, VersionOverridesV1_0, Line=40, CharPosition=5		
