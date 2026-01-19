@@ -41,7 +41,6 @@ interface UIState {
   refBoxActive: boolean;
   refBoxShapeName: string | null;
   refBoxPollingInterval: number | null;
-  webUnsupported: boolean;
 }
 
 const uiState: UIState = {
@@ -49,7 +48,6 @@ const uiState: UIState = {
   refBoxActive: false,
   refBoxShapeName: null,
   refBoxPollingInterval: null,
-  webUnsupported: false,
 };
 
 let selectionAdjustInFlight = false;
@@ -117,16 +115,6 @@ function getLog() {
   };
 }
 
-function isOfficeOnlinePlatform(platform: any): boolean {
-  try {
-    const officeAny = Office as any;
-    if (officeAny?.PlatformType?.OfficeOnline && platform === officeAny.PlatformType.OfficeOnline) return true;
-  } catch {
-    // ignore
-  }
-  return String(platform ?? "").toLowerCase() === "officeonline";
-}
-
 function toLoggableError(e: unknown): any {
   if (e && typeof e === "object") {
     const anyErr = e as any;
@@ -153,13 +141,7 @@ function createCardSection(title?: string): HTMLDivElement {
   return section;
 }
 
-function createToggleSwitch(
-  id: string,
-  label: string,
-  checked: boolean,
-  onChange: (checked: boolean) => void,
-  disabled: boolean = false
-): HTMLDivElement {
+function createToggleSwitch(id: string, label: string, checked: boolean, onChange: (checked: boolean) => void): HTMLDivElement {
   const container = document.createElement("div");
   container.className = "toggle-container";
   const labelEl = document.createElement("span");
@@ -171,16 +153,10 @@ function createToggleSwitch(
   toggle.setAttribute("role", "switch");
   toggle.setAttribute("aria-checked", String(checked));
   toggle.tabIndex = 0;
-  if (disabled) {
-    toggle.setAttribute("aria-disabled", "true");
-    toggle.style.pointerEvents = "none";
-    toggle.style.opacity = "0.6";
-  }
   const knob = document.createElement("div");
   knob.className = "toggle-switch-knob";
   toggle.appendChild(knob);
   toggle.addEventListener("click", () => {
-    if (disabled) return;
     const newState = !toggle.classList.contains("active");
     toggle.classList.toggle("active", newState);
     toggle.setAttribute("aria-checked", String(newState));
@@ -191,14 +167,7 @@ function createToggleSwitch(
   return container;
 }
 
-function createRadioButton(
-  name: string,
-  value: string,
-  label: string,
-  checked: boolean,
-  onChange: () => void,
-  disabled: boolean = false
-): HTMLDivElement {
+function createRadioButton(name: string, value: string, label: string, checked: boolean, onChange: () => void): HTMLDivElement {
   const container = document.createElement("div");
   const input = document.createElement("input");
   input.type = "radio";
@@ -207,7 +176,6 @@ function createRadioButton(
   input.id = `${name}-${value}`;
   input.className = "modern-radio";
   input.checked = checked;
-  input.disabled = disabled;
   const labelEl = document.createElement("label");
   labelEl.className = "modern-radio-label";
   labelEl.htmlFor = input.id;
@@ -220,23 +188,13 @@ function createRadioButton(
   text.textContent = label;
   labelEl.appendChild(circle);
   labelEl.appendChild(text);
-  input.addEventListener("change", () => {
-    if (disabled) return;
-    if (input.checked) onChange();
-  });
+  input.addEventListener("change", () => { if (input.checked) onChange(); });
   container.appendChild(input);
   container.appendChild(labelEl);
   return container;
 }
 
-function createInput(
-  id: string,
-  label: string,
-  value: number,
-  onChange: (value: number) => void,
-  unit: string = "cm",
-  disabled: boolean = false
-): HTMLDivElement {
+function createInput(id: string, label: string, value: number, onChange: (value: number) => void, unit: string = "cm"): HTMLDivElement {
   const row = document.createElement("div");
   row.className = "input-row";
   const labelEl = document.createElement("span");
@@ -250,12 +208,10 @@ function createInput(
   input.min = "0";
   input.max = "100";
   input.step = "0.5";
-  input.disabled = disabled;
   const unitEl = document.createElement("span");
   unitEl.className = "input-unit";
   unitEl.textContent = unit;
   const handleChange = () => {
-    if (disabled) return;
     const val = parseFloat(input.value);
     if (!isNaN(val) && val >= 0) onChange(val);
   };
@@ -267,22 +223,12 @@ function createInput(
   return row;
 }
 
-function createButton(
-  text: string,
-  onClick: () => void,
-  variant: "primary" | "secondary" = "primary",
-  fullWidth: boolean = false,
-  disabled: boolean = false
-): HTMLButtonElement {
+function createButton(text: string, onClick: () => void, variant: "primary" | "secondary" = "primary", fullWidth: boolean = false): HTMLButtonElement {
   const button = document.createElement("button");
   button.type = "button";
   button.className = `modern-button modern-button-${variant}${fullWidth ? " modern-button-full" : ""}`;
   button.textContent = text;
-  button.disabled = disabled;
-  button.addEventListener("click", () => {
-    if (disabled) return;
-    onClick();
-  });
+  button.addEventListener("click", onClick);
   return button;
 }
 
@@ -849,23 +795,11 @@ function buildUI(): void {
   container.innerHTML = "";
   const settings = getCurrentSettings();
 
-  const disabled = uiState.webUnsupported;
-  if (uiState.webUnsupported) {
-    const warnSection = createCardSection("Web version limitation");
-    const warn = document.createElement("div");
-    warn.style.color = "#b45309";
-    warn.style.fontSize = "12px";
-    warn.style.lineHeight = "1.4";
-    warn.textContent = "Word on the web is not supported yet. Please use Word desktop (Windows/Mac).";
-    warnSection.appendChild(warn);
-    container.appendChild(warnSection);
-  }
-
   const enableSection = createCardSection();
   enableSection.appendChild(createToggleSwitch("enableToggle", "Enable Auto Resize", settings.enabled, (checked) => {
     saveSetting("enabled", checked);
     setStatus(checked ? "Enabled" : "Disabled");
-  }, disabled));
+  }));
   container.appendChild(enableSection);
 
   const modeSection = createCardSection("Mode Selection");
@@ -897,7 +831,7 @@ function buildUI(): void {
       startExcelPasteCountPolling();
     }
     setStatus("Mode: Paste");
-  }, disabled));
+  }));
   radioContainer.appendChild(createRadioButton("mode", "selection", "Resize on Selection", settings.resizeOnSelection && !settings.resizeOnPaste, () => {
     saveSetting("resizeOnPaste", false);
     saveSetting("resizeOnSelection", true);
@@ -910,7 +844,7 @@ function buildUI(): void {
       startExcelActiveShapePolling();
     }
     setStatus("Mode: Selection");
-  }, disabled));
+  }));
   modeSection.appendChild(radioContainer);
   container.appendChild(modeSection);
 
@@ -921,25 +855,20 @@ function buildUI(): void {
   refBoxBtn.id = "refBoxBtn";
   refBoxBtn.className = "draggable-size-btn";
   refBoxBtn.innerHTML = `<span class="mouse-icon">${MOUSE_CURSOR_ICON}</span> Draggable Size Setting`;
-  if (disabled) {
-    refBoxBtn.disabled = true;
-    (refBoxBtn as any).style.opacity = "0.6";
-  } else {
-    refBoxBtn.addEventListener("click", () => void handleToggleRefBox());
-  }
+  refBoxBtn.addEventListener("click", () => void handleToggleRefBox());
   sizeSection.appendChild(refBoxBtn);
 
   sizeSection.appendChild(createInput("widthInput", "Width", settings.targetWidthCm, (value) => {
     if (!uiState.pendingSettings) {
       uiState.pendingSettings = { targetWidthCm: value, targetHeightCm: settings.targetHeightCm, lockHeight: settings.lockHeight, lockAspectRatio: !settings.lockHeight };
     } else { uiState.pendingSettings.targetWidthCm = value; }
-  }, "cm", disabled));
+  }));
 
   const heightRow = createInput("heightInput", "Height", settings.targetHeightCm, (value) => {
     if (!uiState.pendingSettings) {
       uiState.pendingSettings = { targetWidthCm: settings.targetWidthCm, targetHeightCm: value, lockHeight: settings.lockHeight, lockAspectRatio: !settings.lockHeight };
     } else { uiState.pendingSettings.targetHeightCm = value; }
-  }, "cm", disabled);
+  });
 
   const lockBtn = document.createElement("button");
   lockBtn.type = "button";
@@ -947,9 +876,7 @@ function buildUI(): void {
   lockBtn.className = `lock-icon-btn${settings.lockHeight ? " active" : ""}`;
   lockBtn.innerHTML = settings.lockHeight ? LOCK_ICON_LOCKED : LOCK_ICON_UNLOCKED;
   lockBtn.title = settings.lockHeight ? "Height locked" : "Height unlocked";
-  lockBtn.disabled = disabled;
   lockBtn.addEventListener("click", () => {
-    if (disabled) return;
     const newLockState = !lockBtn.classList.contains("active");
     lockBtn.classList.toggle("active", newLockState);
     lockBtn.innerHTML = newLockState ? LOCK_ICON_LOCKED : LOCK_ICON_UNLOCKED;
@@ -959,7 +886,7 @@ function buildUI(): void {
   heightRow.appendChild(lockBtn);
   sizeSection.appendChild(heightRow);
 
-  sizeSection.appendChild(createButton("Save", () => void applySettings(), "primary", true, disabled));
+  sizeSection.appendChild(createButton("Save", () => void applySettings(), "primary", true));
   container.appendChild(sizeSection);
 
   log.info("buildUI: UI built", { build: BUILD_TAG });
@@ -976,11 +903,6 @@ async function initialize(): Promise<void> {
   }
   const host = Office.context.host;
   log.info("initialize: Office host", { host });
-  if (uiState.webUnsupported) {
-    setStatus(`Web not supported (${BUILD_TAG})`);
-    log.warn("initialize: webUnsupported - skip Office handlers", { host });
-    return;
-  }
   if (host === Office.HostType.Word) {
     try { await initPasteBaseline(); log.info("initialize: paste baseline initialized"); } catch (e) { log.error("initialize: initPasteBaseline error", e); }
     try {
@@ -1039,7 +961,6 @@ async function initialize(): Promise<void> {
 Office.onReady(async (info) => {
   const log = getLog();
   log.info("Office.onReady", { host: info.host, platform: info.platform });
-  uiState.webUnsupported = isOfficeOnlinePlatform((info as any)?.platform) && info.host === Office.HostType.Word;
   try { await initialize(); } catch (e) { log.error("Office.onReady error", e); setStatus("Initialization failed"); }
 });
 

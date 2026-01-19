@@ -1,36 +1,81 @@
-2026/1/14 20:40:41.171	Medium	Web Add-In Runtime Logging Session Started			
-2026/1/14 20:40:41.171	Medium	Add-in manifest parsing starting.			
-2026/1/14 20:40:41.178	Medium	Add-in manifest parsing starting.			
-2026/1/14 20:40:41.874	Medium	Add-in manifest parsing starting.			
-2026/1/14 20:40:41.934	Medium	Add-in manifest parsing starting.			
-2026/1/14 20:57:58.187	Medium	Add-in manifest parsing starting.			
-2026/1/14 20:57:58.190	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
-2026/1/14 20:57:58.190	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
-2026/1/14 20:57:58.190	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
-2026/1/14 20:57:58.191	Medium	Add-in manifest parsing starting.			
-2026/1/14 20:57:58.191	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
-2026/1/14 20:57:58.191	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
-2026/1/14 20:57:58.191	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
-2026/1/14 20:57:58.192	Medium	Add-in manifest parsing starting.			
-2026/1/14 20:57:58.192	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
-2026/1/14 20:57:58.192	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
-2026/1/14 20:57:58.192	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
-2026/1/14 20:57:58.192	Medium	Add-in manifest parsing starting.			
-2026/1/14 20:57:58.193	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
-2026/1/14 20:57:58.193	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
-2026/1/14 20:57:58.193	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
-2026/1/14 20:58:05.507	Medium	Add-in manifest parsing starting.			
-2026/1/14 20:58:05.508	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
-2026/1/14 20:58:05.508	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
-2026/1/14 20:58:05.508	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
-2026/1/14 20:58:05.511	Medium	Add-in manifest parsing starting.			
-2026/1/14 20:58:05.512	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Script", Line=1, CharPosition=1650		
-2026/1/14 20:58:05.512	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Page", Line=1, CharPosition=1717		
-2026/1/14 20:58:05.512	Monitorable	Manifest	Skipped unrecognized XML element for add-in ID: cec2c794-cfc7-4347-a54b-1ced872b6768, Location: Element Namespace "http://schemas.microsoft.com/office/taskpaneappversionoverrides" : Element Name "Metadata", Line=1, CharPosition=1780		
-2026/1/14 20:58:27.723	Monitorable	WebApplicationInfo	SSO failed with "13007" error code.		
-2026/1/14 20:58:55.845	Monitorable	WebApplicationInfo	SSO failed with "13007" error code.		
-2026/1/14 21:11:32.380	Medium	Add-in manifest parsing starting.			
-2026/1/14 21:11:32.383	Monitorable	Manifest	Issue encountered while parsing manifest, add-in ID : 7e2ca603-00d1-4fcd-8187-926a83703522, Location: Error at element "VersionOverrides" : Manifest override with unsupported requirements or no supported extension points ignored: http://schemas.microsoft.com/office/taskpaneappversionoverrides, VersionOverridesV1_0, Line=40, CharPosition=5		
-2026/1/15 20:18:49.531	Medium	Add-in manifest parsing starting.			
-2026/1/15 20:18:49.540	Medium	Add-in manifest parsing starting.			
-2026/1/15 20:18:49.549	Medium	Add-in manifest parsing starting.			
+2026/1/19 17:35:24.498	Medium	Web Add-In Runtime Logging Session Started			
+2026/1/19 17:35:24.498	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin]		
+2026/1/19 17:35:24.498	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.499	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT		
+2026/1/19 17:35:24.499	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.499	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_CREATE_PROMPT		
+2026/1/19 17:35:24.499	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_LIST		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_HLIST		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_CLASSIFY		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_TRANSLATE		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_EXTRACT		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_TAG		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_CONVERT		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_FORMAT		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_SUMMARIZE		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_TABLE		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_FILL		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_SPLIT		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.500	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_HSPLIT		
+2026/1/19 17:35:24.500	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.501	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_EDIT		
+2026/1/19 17:35:24.501	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.501	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_MATCH		
+2026/1/19 17:35:24.501	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.501	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_VISION		
+2026/1/19 17:35:24.501	Verbose	CustomFunctions	[Metadata] [Parsing] [Begin] Function		
+2026/1/19 17:35:24.501	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success] Function=GPT_WEB		
+2026/1/19 17:35:24.501	Medium	CustomFunctions	[Metadata] [Parsing] [End] [Success]		
+2026/1/19 17:35:24.501	Verbose	CustomFunctions	[Installation] [Functions] [Begin] Solution=wa200005502, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.501	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.504	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.504	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_CREATE_PROMPT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_CREATE_PROMPT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_LIST, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_LIST, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_HLIST, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_HLIST, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_CLASSIFY, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_CLASSIFY, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_TRANSLATE, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_TRANSLATE, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_EXTRACT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_EXTRACT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.505	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_TAG, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.506	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_TAG, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.506	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_CONVERT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.506	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_CONVERT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.506	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_FORMAT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.506	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_FORMAT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.506	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_SUMMARIZE, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.506	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_SUMMARIZE, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.506	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_TABLE, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_TABLE, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_FILL, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_FILL, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_SPLIT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_SPLIT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_HSPLIT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_HSPLIT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_EDIT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_EDIT, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_MATCH, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_MATCH, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_VISION, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_VISION, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Verbose	CustomFunctions	[Registration] [Begin] Function=GPT_WEB, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Medium	CustomFunctions	[Registration] [End] [Success] Function=GPT_WEB, Workbook=to do list.xlsx		
+2026/1/19 17:35:24.507	Medium	CustomFunctions	[Installation] [Functions] [End] [Success] Solution=wa200005502, Workbook=to do list.xlsx		

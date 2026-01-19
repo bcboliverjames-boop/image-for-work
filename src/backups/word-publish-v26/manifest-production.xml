@@ -1,24 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- 
+  鐢熶骇鐜 Manifest 鏂囦欢
+  閮ㄧ讲鍒?GitHub Pages 鍚庝娇鐢ㄦ鏂囦欢鎻愪氦鍒?AppSource
+  
+  GitHub Pages URL: https://bcboliverjames-boop.github.io/image-for-work/
+-->
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
            xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
            xsi:type="TaskPaneApp">
 
-  <Id>7a9c0a2b-5d1d-4c57-9f0e-7a6f3c4b1e2d</Id>
-  <Version>1.0.0.1</Version>
-  <ProviderName>Xmoto</ProviderName>
+  <!-- 姝ｅ紡鍙戝竷鏃跺缓璁敓鎴愭柊鐨?GUID -->
+  <Id>0f6e5c23-3c79-4d9a-b015-7c8b6068da3c</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>OfficePasteWidth</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
 
-  <DisplayName DefaultValue="Image for work"/>
-  <Description DefaultValue="Automatically resize pasted images to a target width in Word, PowerPoint, and Excel."/>
+  <DisplayName DefaultValue="Office Paste Width"/>
+  <Description DefaultValue="Automatically resize pasted images to a target width in Word, PowerPoint, and Excel. Save time and maintain consistent image sizes in your documents."/>
 
-  <IconUrl DefaultValue="https://raw.githubusercontent.com/OfficeDev/Office-Addin-TaskPane-JS/master/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://raw.githubusercontent.com/OfficeDev/Office-Addin-TaskPane-JS/master/assets/icon-80.png"/>
-  <SupportUrl DefaultValue="https://example.com/support"/>
+  <!-- 鏇挎崲涓轰綘鐨?GitHub Pages URL -->
+  <IconUrl DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/assets/icon-64.png"/>
+  <SupportUrl DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/support.html"/>
 
   <AppDomains>
-    <AppDomain>https://localhost:3002</AppDomain>
+    <AppDomain>https://bcboliverjames-boop.github.io</AppDomain>
   </AppDomains>
 
   <Hosts>
@@ -34,7 +42,7 @@
   </Requirements>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://localhost:3002/taskpane.html"/>
+    <SourceLocation DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/taskpane.html"/>
   </DefaultSettings>
 
   <Permissions>ReadWriteDocument</Permissions>
@@ -151,17 +159,19 @@
 
     <Resources>
       <bt:Images>
-        <bt:Image id="opw.icon16" DefaultValue="https://raw.githubusercontent.com/OfficeDev/Office-Addin-TaskPane-JS/master/assets/icon-16.png" />
-        <bt:Image id="opw.icon32" DefaultValue="https://raw.githubusercontent.com/OfficeDev/Office-Addin-TaskPane-JS/master/assets/icon-32.png" />
-        <bt:Image id="opw.icon80" DefaultValue="https://raw.githubusercontent.com/OfficeDev/Office-Addin-TaskPane-JS/master/assets/icon-80.png" />
+        <!-- 鏇挎崲涓轰綘鐨?GitHub Pages URL -->
+        <bt:Image id="opw.icon16" DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/assets/icon-16.png" />
+        <bt:Image id="opw.icon32" DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/assets/icon-32.png" />
+        <bt:Image id="opw.icon80" DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/assets/icon-80.png" />
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="opw.taskpaneUrl" DefaultValue="https://localhost:3002/taskpane.html" />
-        <bt:Url id="opw.functionFileUrl" DefaultValue="https://localhost:3002/commands.html" />
+        <!-- 鏇挎崲涓轰綘鐨?GitHub Pages URL -->
+        <bt:Url id="opw.taskpaneUrl" DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/taskpane.html" />
+        <bt:Url id="opw.functionFileUrl" DefaultValue="https://bcboliverjames-boop.github.io/image-for-work/commands.html" />
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="opw.groupLabel" DefaultValue="Image for work" />
-        <bt:String id="opw.buttonLabel" DefaultValue="Image for work" />
+        <bt:String id="opw.groupLabel" DefaultValue="Paste Width" />
+        <bt:String id="opw.buttonLabel" DefaultValue="Paste Width" />
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="opw.buttonDesc" DefaultValue="Open the pane to enable automatic resize of pasted images." />

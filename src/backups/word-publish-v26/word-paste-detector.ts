@@ -98,7 +98,7 @@ export async function resizeLastImage(
 ): Promise<"inline" | "shape" | "none"> {
   const log = getLog();
   const tw = cmToPoints(settings.targetWidthCm);
-  const scope = getResizeScope() ?? "new";
+  const scope = getResizeScope();
   const registry = getRegistry();
   const sizeSnapshot = getSizeSnapshot();
   
@@ -199,7 +199,7 @@ export async function resizeByGlobalScan(settings: ResizeSettings): Promise<"inl
   const log = getLog();
   const tw = cmToPoints(settings.targetWidthCm);
   const th = cmToPoints(settings.targetHeightCm);
-  const scope = getResizeScope() ?? "new";
+  const scope = getResizeScope();
   const registry = getRegistry();
   const sizeSnapshot = getSizeSnapshot();
   return await Word.run(async (ctx) => {

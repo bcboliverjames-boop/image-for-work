@@ -1,5 +1,5 @@
 ﻿/**
- * Office Paste Width - Taskpane UI v24
+ * Office Paste Width - Taskpane UI v26
  * 修复: 参考框删除使用前缀匹配, 保存后更新 UI 显示
  */
 
@@ -170,6 +170,30 @@ function getResizeSettings() {
   };
 }
 
+/**
+ * 同步 UI 显示值与 localStorage 中的实际保存值
+ * 只有当 UI 值与保存值不一致时才更新
+ */
+function syncUIWithSavedSettings(): void {
+  const settings = getCurrentSettings();
+  const widthInput = document.getElementById("widthInput") as HTMLInputElement;
+  const heightInput = document.getElementById("heightInput") as HTMLInputElement;
+  
+  if (widthInput) {
+    const uiWidth = parseFloat(widthInput.value);
+    if (!isNaN(uiWidth) && Math.abs(uiWidth - settings.targetWidthCm) > 0.01) {
+      widthInput.value = settings.targetWidthCm.toFixed(1);
+    }
+  }
+  
+  if (heightInput) {
+    const uiHeight = parseFloat(heightInput.value);
+    if (!isNaN(uiHeight) && Math.abs(uiHeight - settings.targetHeightCm) > 0.01) {
+      heightInput.value = settings.targetHeightCm.toFixed(1);
+    }
+  }
+}
+
 function startRefBoxPolling(): void {
   const log = getLog();
   if (uiState.refBoxPollingInterval !== null) return;
@@ -261,14 +285,22 @@ async function applySettings(): Promise<void> {
   }
   const widthInput = document.getElementById("widthInput") as HTMLInputElement;
   const heightInput = document.getElementById("heightInput") as HTMLInputElement;
+  let savedWidth = 0, savedHeight = 0;
   if (widthInput) {
     const width = parseFloat(widthInput.value);
-    if (!isNaN(width) && width > 0) saveSetting("targetWidthCm", width);
+    if (!isNaN(width) && width > 0) {
+      saveSetting("targetWidthCm", width);
+      savedWidth = width;
+    }
   }
   if (heightInput) {
     const height = parseFloat(heightInput.value);
-    if (!isNaN(height) && height > 0) saveSetting("targetHeightCm", height);
+    if (!isNaN(height) && height > 0) {
+      saveSetting("targetHeightCm", height);
+      savedHeight = height;
+    }
   }
+  log.info("applySettings: saved values", { width: savedWidth, height: savedHeight });
   uiState.pendingSettings = null;
   
   // 保存设置后重置内存表并更新尺寸快照
@@ -289,6 +321,10 @@ async function applySettings(): Promise<void> {
     }
   }
   
+  // 刷新 UI 显示保存后的值
+  if (widthInput && savedWidth > 0) widthInput.value = savedWidth.toFixed(1);
+  if (heightInput && savedHeight > 0) heightInput.value = savedHeight.toFixed(1);
+
   setStatus("Settings saved");
   log.info("applySettings: done");
 }
@@ -316,7 +352,7 @@ async function handleSelectionChange(): Promise<void> {
           result.shapeCount,
           (resizeResult, method) => {
             log.info("handleSelectionChange: resize done", { result: resizeResult, method });
-            if (resizeResult !== "none") setStatus(`Resized ${resizeResult} image (${method})`);
+              if (resizeResult !== "none") { setStatus(`Resized ${resizeResult} image (${method})`); syncUIWithSavedSettings(); }
           }
         );
       }
@@ -450,12 +486,12 @@ function buildUI(): void {
   statusSection.appendChild(statusContainer);
   container.appendChild(statusSection);
 
-  log.info("buildUI: UI built v23");
+  log.info("buildUI: UI built v26");
 }
 
 async function initialize(): Promise<void> {
   const log = getLog();
-  log.info("initialize: start v23");
+  log.info("initialize: start v26");
   buildUI();
   if (!hasOfficeContext()) {
     log.warn("initialize: No Office context, running in browser mode");
@@ -480,8 +516,8 @@ async function initialize(): Promise<void> {
     log.info("initialize: registry created");
   }
   await registerSelectionChangedEvent();
-  setStatus("Ready (v23)");
-  log.info("initialize: done v23");
+  setStatus("Ready (v26)");
+  log.info("initialize: done v26");
 }
 
 Office.onReady(async (info) => {
@@ -491,4 +527,3 @@ Office.onReady(async (info) => {
 });
 
 export { getCurrentSettings, getResizeSettings, handleSelectionChange, applySettings, handleToggleRefBox, startRefBoxPolling, stopRefBoxPolling, buildUI, initialize };
-
