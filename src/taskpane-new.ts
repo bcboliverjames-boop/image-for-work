@@ -856,7 +856,8 @@ function buildUI(): void {
     warn.style.color = "#b45309";
     warn.style.fontSize = "12px";
     warn.style.lineHeight = "1.4";
-    warn.textContent = "Word on the web is not supported yet. Please use Word desktop (Windows/Mac).";
+    const hostName = hasOfficeContext() ? String((Office as any)?.context?.host ?? "Office") : "Office";
+    warn.textContent = `${hostName} on the web is not supported yet. Please use the desktop app (Windows/Mac).`;
     warnSection.appendChild(warn);
     container.appendChild(warnSection);
   }
@@ -1039,7 +1040,7 @@ async function initialize(): Promise<void> {
 Office.onReady(async (info) => {
   const log = getLog();
   log.info("Office.onReady", { host: info.host, platform: info.platform });
-  uiState.webUnsupported = isOfficeOnlinePlatform((info as any)?.platform) && info.host === Office.HostType.Word;
+  uiState.webUnsupported = isOfficeOnlinePlatform((info as any)?.platform);
   try { await initialize(); } catch (e) { log.error("Office.onReady error", e); setStatus("Initialization failed"); }
 });
 
