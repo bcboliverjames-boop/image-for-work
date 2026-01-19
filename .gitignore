@@ -4,3 +4,7 @@ dist/
 .DS_Store
 *.local
 logs/
+
+src/backups/
+office-runtime-log.txt
+*.bak
