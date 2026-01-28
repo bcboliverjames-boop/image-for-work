@@ -123,23 +123,34 @@ export async function captureSizeSnapshot(options?: CaptureSizeSnapshotOptions):
     }
 
     // 收集浮动图片尺寸
-    const shapes = ctx.document.body.shapes;
-    shapes.load("items");
-    await ctx.sync();
-
-    for (const shape of shapes.items || []) {
-      (shape as any).load(["type", "width", "height"]);
+    let shapes: any = null;
+    try {
+      shapes = (ctx.document.body as any).shapes;
+    } catch {
+      shapes = null;
     }
-    await ctx.sync();
+    if (shapes) {
+      try {
+        shapes.load("items");
+        await ctx.sync();
 
-    for (const shape of shapes.items || []) {
-      // 只处理图片类型的 Shape
-      const shapeType = (shape as any).type;
-      if (shapeType === "Image" || shapeType === 1) {
-        const w = Math.round(Number((shape as any).width));
-        const h = Math.round(Number((shape as any).height));
-        if (Number.isFinite(w) && w > 0) widthSet.add(w);
-        if (Number.isFinite(h) && h > 0) heightSet.add(h);
+        for (const shape of shapes.items || []) {
+          (shape as any).load(["type", "width", "height"]);
+        }
+        await ctx.sync();
+
+        for (const shape of shapes.items || []) {
+          // 只处理图片类型的 Shape
+          const shapeType = (shape as any).type;
+          if (shapeType === "Image" || shapeType === 1) {
+            const w = Math.round(Number((shape as any).width));
+            const h = Math.round(Number((shape as any).height));
+            if (Number.isFinite(w) && w > 0) widthSet.add(w);
+            if (Number.isFinite(h) && h > 0) heightSet.add(h);
+          }
+        }
+      } catch {
+        // ignore shapes snapshot if not supported
       }
     }
 

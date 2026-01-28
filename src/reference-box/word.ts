@@ -17,6 +17,36 @@ const POINTS_TO_EMU = 12700;
 // 参考框的特殊描述标记，用于识别
 const REF_BOX_DESCRIPTION = "OfficePasteWidth_ReferenceBox";
 
+let shapesSupportedCache: boolean | null = null;
+let shapesUnsupportedWarned = false;
+
+async function isWordShapesSupported(): Promise<boolean> {
+  if (shapesSupportedCache !== null) return shapesSupportedCache;
+  try {
+    const supported = await Word.run(async (context) => {
+      try {
+        const shapes = (context.document.body as any).shapes;
+        shapes.load("items");
+        await context.sync();
+        return true;
+      } catch {
+        return false;
+      }
+    });
+    shapesSupportedCache = !!supported;
+    return shapesSupportedCache;
+  } catch {
+    shapesSupportedCache = false;
+    return false;
+  }
+}
+
+function warnShapesUnsupportedOnce(): void {
+  if (shapesUnsupportedWarned) return;
+  shapesUnsupportedWarned = true;
+  console.warn("[参考框] Word shapes API not supported on this platform. Reference box is disabled.");
+}
+
 function pointsToEmu(points: number): number {
   return Math.round(points * POINTS_TO_EMU);
 }
@@ -106,7 +136,7 @@ function generateRectangleOoxml(shapeName: string, widthPts: number, heightPts: 
 /**
  * 检查形状是否为参考框（通过 altTextDescription）
  */
-function isReferenceBox(shape: Word.Shape): boolean {
+function isReferenceBox(shape: any): boolean {
   try {
     // altTextDescription 包含我们的标记
     return shape.altTextDescription === REF_BOX_DESCRIPTION;
@@ -120,6 +150,11 @@ function isReferenceBox(shape: Word.Shape): boolean {
  */
 export async function insertWordReferenceBox(): Promise<string | null> {
   try {
+    const supported = await isWordShapesSupported();
+    if (!supported) {
+      warnShapesUnsupportedOnce();
+      return null;
+    }
     return await Word.run(async (context) => {
       const shapeName = generateReferenceBoxName();
       const widthPts = cmToPoints(REFERENCE_BOX_CONFIG.defaultWidthCm);
@@ -129,7 +164,7 @@ export async function insertWordReferenceBox(): Promise<string | null> {
       
       // 在当前选择位置插入 OOXML
       const selection = context.document.getSelection();
-      selection.insertOoxml(ooxml, Word.InsertLocation.after);
+      selection.insertOoxml(ooxml, (Word as any).InsertLocation.after);
       
       await context.sync();
       
@@ -148,6 +183,11 @@ export async function insertWordReferenceBox(): Promise<string | null> {
  */
 export async function getWordReferenceBoxSize(shapeName: string): Promise<ReferenceBoxSize | null> {
   try {
+    const supported = await isWordShapesSupported();
+    if (!supported) {
+      warnShapesUnsupportedOnce();
+      return null;
+    }
     return await Word.run(async (context) => {
       const body = context.document.body;
       const shapes = body.shapes;
@@ -185,6 +225,11 @@ export async function getWordReferenceBoxSize(shapeName: string): Promise<Refere
  */
 export async function removeWordReferenceBox(shapeName: string): Promise<boolean> {
   try {
+    const supported = await isWordShapesSupported();
+    if (!supported) {
+      warnShapesUnsupportedOnce();
+      return false;
+    }
     return await Word.run(async (context) => {
       const body = context.document.body;
       const shapes = body.shapes;
@@ -228,6 +273,11 @@ export async function removeWordReferenceBox(shapeName: string): Promise<boolean
  */
 export async function findWordReferenceBox(): Promise<string | null> {
   try {
+    const supported = await isWordShapesSupported();
+    if (!supported) {
+      warnShapesUnsupportedOnce();
+      return null;
+    }
     return await Word.run(async (context) => {
       const body = context.document.body;
       const shapes = body.shapes;

@@ -327,6 +327,7 @@ function startRefBoxPolling(): void {
   const log = getLog();
   if (uiState.refBoxPollingInterval !== null) return;
   log.info("startRefBoxPolling: start");
+  let consecutiveFailures = 0;
   uiState.refBoxPollingInterval = window.setInterval(async () => {
     try {
       const state = await getReferenceBoxState();
@@ -342,8 +343,14 @@ function startRefBoxPolling(): void {
           lockAspectRatio: !getBoolSetting("setHeightEnabled", false),
         };
       }
+      consecutiveFailures = 0;
     } catch (e) {
-      log.warn("refBoxPolling error", e);
+      consecutiveFailures += 1;
+      log.warn("refBoxPolling error", toLoggableError(e));
+      if (consecutiveFailures >= 3) {
+        log.warn("refBoxPolling: too many failures, stop polling");
+        stopRefBoxPolling();
+      }
     }
   }, 300);
 }
@@ -574,7 +581,7 @@ async function applySettings(): Promise<void> {
       });
       log.info("applySettings: size snapshot updated");
     } catch (e) {
-      log.warn("applySettings: update size snapshot failed", e);
+      log.warn("applySettings: update size snapshot failed", toLoggableError(e));
     }
   }
 
@@ -983,7 +990,7 @@ async function initialize(): Promise<void> {
     return;
   }
   if (host === Office.HostType.Word) {
-    try { await initPasteBaseline(); log.info("initialize: paste baseline initialized"); } catch (e) { log.error("initialize: initPasteBaseline error", e); }
+    try { await initPasteBaseline(); log.info("initialize: paste baseline initialized"); } catch (e) { log.error("initialize: initPasteBaseline error", toLoggableError(e)); }
     try {
       // 捕获当前所有图片的尺寸快照（包含目标尺寸）
       const settings = getCurrentSettings();
@@ -992,7 +999,7 @@ async function initialize(): Promise<void> {
         targetHeightPt: cmToPoints(settings.targetHeightCm),
       });
       log.info("initialize: size snapshot captured");
-    } catch (e) { log.error("initialize: captureSizeSnapshot error", e); }
+    } catch (e) { log.error("initialize: captureSizeSnapshot error", toLoggableError(e)); }
     // 创建内存表（粘贴模式只有新图片模式）
     createRegistry();
     log.info("initialize: registry created");
@@ -1037,7 +1044,7 @@ async function initialize(): Promise<void> {
   log.info("initialize: done", { build: BUILD_TAG });
 }
 
-Office.onReady(async (info) => {
+;(Office as any).onReady(async (info: any) => {
   const log = getLog();
   log.info("Office.onReady", { host: info.host, platform: info.platform });
   uiState.webUnsupported = isOfficeOnlinePlatform((info as any)?.platform);

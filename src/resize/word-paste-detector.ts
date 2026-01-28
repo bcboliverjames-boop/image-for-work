@@ -31,19 +31,25 @@ const state: PasteState = {
 export async function initPasteBaseline(): Promise<void> {
   await Word.run(async (ctx) => {
     const pics = ctx.document.body.inlinePictures;
-    const shapes = ctx.document.body.shapes;
+    let shapes: any = null;
+    try {
+      shapes = (ctx.document.body as any).shapes;
+    } catch {
+      shapes = null;
+    }
     let ic = 0, sc = 0;
     try {
       const icr = (pics as any).getCount();
-      const scr = (shapes as any).getCount();
+      const scr = shapes ? (shapes as any).getCount() : null;
       await ctx.sync();
       ic = (icr as any)?.value ?? 0;
-      sc = (scr as any)?.value ?? 0;
+      sc = shapes ? ((scr as any)?.value ?? 0) : 0;
     } catch {
-      pics.load("items"); shapes.load("items");
+      pics.load("items");
+      if (shapes) shapes.load("items");
       await ctx.sync();
       ic = pics.items?.length ?? 0;
-      sc = shapes.items?.length ?? 0;
+      sc = shapes ? (shapes.items?.length ?? 0) : 0;
     }
     state.lastInlineCount = ic;
     state.lastShapeCount = sc;
@@ -58,24 +64,30 @@ export async function checkCountChange(): Promise<{
 }> {
   return await Word.run(async (ctx) => {
     const pics = ctx.document.body.inlinePictures;
-    const shapes = ctx.document.body.shapes;
+    let shapes: any = null;
+    try {
+      shapes = (ctx.document.body as any).shapes;
+    } catch {
+      shapes = null;
+    }
     let ic = 0, sc = 0;
     try {
       const icr = (pics as any).getCount();
-      const scr = (shapes as any).getCount();
+      const scr = shapes ? (shapes as any).getCount() : null;
       await ctx.sync();
       ic = (icr as any)?.value ?? 0;
-      sc = (scr as any)?.value ?? 0;
+      sc = shapes ? ((scr as any)?.value ?? 0) : 0;
     } catch {
-      pics.load("items"); shapes.load("items");
+      pics.load("items");
+      if (shapes) shapes.load("items");
       await ctx.sync();
       ic = pics.items?.length ?? 0;
-      sc = shapes.items?.length ?? 0;
+      sc = shapes ? (shapes.items?.length ?? 0) : 0;
     }
     if (ic < state.lastInlineCount) state.lastInlineCount = ic;
     if (sc < state.lastShapeCount) state.lastShapeCount = sc;
     const inlineIncreased = ic > state.lastInlineCount;
-    const shapeIncreased = sc > state.lastShapeCount;
+    const shapeIncreased = shapes ? sc > state.lastShapeCount : false;
     return { inlineIncreased, shapeIncreased, inlineCount: ic, shapeCount: sc };
   });
 }
@@ -145,7 +157,16 @@ export async function resizeLastImage(
     }
     if (shapeIncreased && shapeCount > 0) {
       try {
-        const shapes = ctx.document.body.shapes;
+        let shapes: any = null;
+        try {
+          shapes = (ctx.document.body as any).shapes;
+        } catch {
+          shapes = null;
+        }
+        if (!shapes) {
+          log.debug("fast-path: shapes not supported, skip shape resize");
+          return "none";
+        }
         shapes.load("items");
         await ctx.sync();
         const items = shapes.items || [];
@@ -204,19 +225,25 @@ export async function resizeByGlobalScan(settings: ResizeSettings): Promise<"inl
   const sizeSnapshot = getSizeSnapshot();
   return await Word.run(async (ctx) => {
     const pics = ctx.document.body.inlinePictures;
-    const shapes = ctx.document.body.shapes;
+    let shapes: any = null;
+    try {
+      shapes = (ctx.document.body as any).shapes;
+    } catch {
+      shapes = null;
+    }
     let ic = 0, sc = 0;
     try {
       const icr = (pics as any).getCount();
-      const scr = (shapes as any).getCount();
+      const scr = shapes ? (shapes as any).getCount() : null;
       await ctx.sync();
       ic = (icr as any)?.value ?? 0;
-      sc = (scr as any)?.value ?? 0;
+      sc = shapes ? ((scr as any)?.value ?? 0) : 0;
     } catch {
-      pics.load("items"); shapes.load("items");
+      pics.load("items");
+      if (shapes) shapes.load("items");
       await ctx.sync();
       ic = pics.items?.length ?? 0;
-      sc = shapes.items?.length ?? 0;
+      sc = shapes ? (shapes.items?.length ?? 0) : 0;
     }
     log.debug("global-scan start", { inlineCount: ic, shapeCount: sc, scope, hasRegistry: registry !== null, hasSizeSnapshot: sizeSnapshot !== null });
     if (ic > 0) {
@@ -250,7 +277,7 @@ export async function resizeByGlobalScan(settings: ResizeSettings): Promise<"inl
         }
       }
     }
-    if (sc > 0) {
+    if (shapes && sc > 0) {
       shapes.load("items"); await ctx.sync();
       for (const s of shapes.items || []) (s as any).load(["type", "width", "height", "id"]);
       await ctx.sync();
