@@ -29,31 +29,48 @@ const state: PasteState = {
 };
 
 export async function initPasteBaseline(): Promise<void> {
-  await Word.run(async (ctx) => {
-    const pics = ctx.document.body.inlinePictures;
-    let shapes: any = null;
-    try {
-      shapes = (ctx.document.body as any).shapes;
-    } catch {
-      shapes = null;
-    }
-    let ic = 0, sc = 0;
-    try {
-      const icr = (pics as any).getCount();
-      const scr = shapes ? (shapes as any).getCount() : null;
-      await ctx.sync();
-      ic = (icr as any)?.value ?? 0;
-      sc = shapes ? ((scr as any)?.value ?? 0) : 0;
-    } catch {
-      pics.load("items");
-      if (shapes) shapes.load("items");
-      await ctx.sync();
-      ic = pics.items?.length ?? 0;
-      sc = shapes ? (shapes.items?.length ?? 0) : 0;
-    }
-    state.lastInlineCount = ic;
-    state.lastShapeCount = sc;
-  });
+  try {
+    await Word.run(async (ctx) => {
+      const pics = ctx.document.body.inlinePictures;
+      let shapes: any = null;
+      try {
+        shapes = (ctx.document.body as any).shapes;
+      } catch {
+        shapes = null;
+      }
+      let ic = 0, sc = 0;
+
+      try {
+        const icr = (pics as any).getCount();
+        const scr = shapes ? (shapes as any).getCount() : null;
+        await ctx.sync();
+        ic = (icr as any)?.value ?? 0;
+        sc = shapes ? ((scr as any)?.value ?? 0) : 0;
+      } catch {
+        // Always allow inlinePictures baseline even if shapes is unsupported.
+        pics.load("items");
+        await ctx.sync();
+        ic = pics.items?.length ?? 0;
+
+        if (shapes) {
+          try {
+            shapes.load("items");
+            await ctx.sync();
+            sc = shapes.items?.length ?? 0;
+          } catch {
+            sc = 0;
+          }
+        } else {
+          sc = 0;
+        }
+      }
+      state.lastInlineCount = ic;
+      state.lastShapeCount = sc;
+    });
+  } catch {
+    state.lastInlineCount = 0;
+    state.lastShapeCount = 0;
+  }
 }
 
 export async function checkCountChange(): Promise<{
@@ -62,34 +79,56 @@ export async function checkCountChange(): Promise<{
   inlineCount: number;
   shapeCount: number;
 }> {
-  return await Word.run(async (ctx) => {
-    const pics = ctx.document.body.inlinePictures;
-    let shapes: any = null;
-    try {
-      shapes = (ctx.document.body as any).shapes;
-    } catch {
-      shapes = null;
-    }
-    let ic = 0, sc = 0;
-    try {
-      const icr = (pics as any).getCount();
-      const scr = shapes ? (shapes as any).getCount() : null;
-      await ctx.sync();
-      ic = (icr as any)?.value ?? 0;
-      sc = shapes ? ((scr as any)?.value ?? 0) : 0;
-    } catch {
-      pics.load("items");
-      if (shapes) shapes.load("items");
-      await ctx.sync();
-      ic = pics.items?.length ?? 0;
-      sc = shapes ? (shapes.items?.length ?? 0) : 0;
-    }
-    if (ic < state.lastInlineCount) state.lastInlineCount = ic;
-    if (sc < state.lastShapeCount) state.lastShapeCount = sc;
-    const inlineIncreased = ic > state.lastInlineCount;
-    const shapeIncreased = shapes ? sc > state.lastShapeCount : false;
-    return { inlineIncreased, shapeIncreased, inlineCount: ic, shapeCount: sc };
-  });
+  try {
+    return await Word.run(async (ctx) => {
+      const pics = ctx.document.body.inlinePictures;
+      let shapes: any = null;
+      try {
+        shapes = (ctx.document.body as any).shapes;
+      } catch {
+        shapes = null;
+      }
+      let ic = 0, sc = 0;
+
+      try {
+        const icr = (pics as any).getCount();
+        const scr = shapes ? (shapes as any).getCount() : null;
+        await ctx.sync();
+        ic = (icr as any)?.value ?? 0;
+        sc = shapes ? ((scr as any)?.value ?? 0) : 0;
+      } catch {
+        // Always allow inlinePictures count even if shapes is unsupported.
+        pics.load("items");
+        await ctx.sync();
+        ic = pics.items?.length ?? 0;
+
+        if (shapes) {
+          try {
+            shapes.load("items");
+            await ctx.sync();
+            sc = shapes.items?.length ?? 0;
+          } catch {
+            sc = 0;
+          }
+        } else {
+          sc = 0;
+        }
+      }
+
+      if (ic < state.lastInlineCount) state.lastInlineCount = ic;
+      if (sc < state.lastShapeCount) state.lastShapeCount = sc;
+      const inlineIncreased = ic > state.lastInlineCount;
+      const shapeIncreased = shapes ? sc > state.lastShapeCount : false;
+      return { inlineIncreased, shapeIncreased, inlineCount: ic, shapeCount: sc };
+    });
+  } catch {
+    return {
+      inlineIncreased: false,
+      shapeIncreased: false,
+      inlineCount: state.lastInlineCount,
+      shapeCount: state.lastShapeCount,
+    };
+  }
 }
 
 export function updateBaseline(inlineCount: number, shapeCount: number): void {

@@ -185,20 +185,31 @@ export async function adjustSelectedWordObject(
   const inlinePics = range.inlinePictures;
   inlinePics.load("items");
 
-  const selectionShapes = (range as any).shapes;
-  if (selectionShapes?.load) selectionShapes.load("items");
-
+  // 先只 sync inlinePictures，避免 shapes 不支持导致整个 sync 失败
   await context.sync();
+
+  let selectionShapes: any = null;
+  try {
+    selectionShapes = (range as any).shapes;
+    if (selectionShapes?.load) selectionShapes.load("items");
+    await context.sync();
+  } catch {
+    selectionShapes = null;
+  }
 
   // 优先处理浮动图片
   if (selectionShapes?.items?.length >= 1) {
     const shape = selectionShapes.items[0];
-    (shape as any).load("type");
-    await context.sync();
+    try {
+      (shape as any).load("type");
+      await context.sync();
 
-    if (isImageShape(shape)) {
-      const ok = await applyShapeSize(context, shape, settings);
-      return ok ? "word-selection-shape" : "none";
+      if (isImageShape(shape)) {
+        const ok = await applyShapeSize(context, shape, settings);
+        return ok ? "word-selection-shape" : "none";
+      }
+    } catch {
+      // ignore shapes path if not supported
     }
   }
 
