@@ -8,7 +8,7 @@ import { getBoolSetting, getNumberSetting, saveSetting } from "./settings";
 import { adjustSelectedWordObject } from "./resize/word";
 import { adjustSelectedExcelShape } from "./resize/excel";
 import { adjustSelectedPptShape } from "./resize/powerpoint";
-import { initPasteBaseline, checkCountChange, handleCountIncrease } from "./resize/word-paste-detector";
+import { initPasteBaseline, checkCountChange, handleCountIncrease, resizeByGlobalScan } from "./resize/word-paste-detector";
 import {
   initExcelPasteBaseline,
   checkExcelCountChange,
@@ -130,6 +130,15 @@ function isOfficeOnlinePlatform(platform: any): boolean {
     // ignore
   }
   return String(platform ?? "").toLowerCase() === "officeonline";
+}
+
+function isMacPlatform(): boolean {
+  try {
+    const p = (Office as any)?.context?.diagnostics?.platform ?? (Office as any)?.context?.platform;
+    return String(p ?? "").toLowerCase() === "mac";
+  } catch {
+    return false;
+  }
 }
 
 function toLoggableError(e: unknown): any {
@@ -481,6 +490,9 @@ function startWordPasteCountPolling(): void {
   const log = getLog();
   if (wordPasteCountPollTimer !== null) return;
   wordPastePendingKey = null;
+  let lastGlobalScanAt = 0;
+  let lastSelectionAttemptAt = 0;
+  let lastHeartbeatAt = 0;
   log.info("startWordPasteCountPolling: start");
   wordPasteCountPollTimer = window.setInterval(async () => {
     if (!hasOfficeContext()) return;
@@ -493,34 +505,80 @@ function startWordPasteCountPolling(): void {
 
     try {
       const change = await checkCountChange();
-      if (!change.inlineIncreased && !change.shapeIncreased) return;
+      const now = Date.now();
+      if (now - lastHeartbeatAt > 6000) {
+        lastHeartbeatAt = now;
+        log.info("wordPasteCountPoll: heartbeat", {
+          inlineCount: change.inlineCount,
+          shapeCount: change.shapeCount,
+        });
+      }
 
-      const key = `${change.inlineCount}/${change.shapeCount}`;
-      if (wordPastePendingKey === key) return;
-      wordPastePendingKey = key;
+      if (change.inlineIncreased || change.shapeIncreased) {
+        const key = `${change.inlineCount}/${change.shapeCount}`;
+        if (wordPastePendingKey === key) return;
+        wordPastePendingKey = key;
 
-      log.info("wordPasteCountPoll: paste detected", {
-        inlineIncreased: change.inlineIncreased,
-        shapeIncreased: change.shapeIncreased,
-        inlineCount: change.inlineCount,
-        shapeCount: change.shapeCount,
-      });
+        log.info("wordPasteCountPoll: paste detected", {
+          inlineIncreased: change.inlineIncreased,
+          shapeIncreased: change.shapeIncreased,
+          inlineCount: change.inlineCount,
+          shapeCount: change.shapeCount,
+        });
 
-      handleCountIncrease(
-        getResizeSettings(),
-        change.inlineIncreased,
-        change.shapeIncreased,
-        change.inlineCount,
-        change.shapeCount,
-        (resizeResult, method) => {
-          log.info("wordPasteCountPoll: paste resize done", { result: resizeResult, method });
-          wordPastePendingKey = null;
-          if (resizeResult !== "none") {
-            setStatus(`Resized ${resizeResult} image (${method})`);
+        handleCountIncrease(
+          getResizeSettings(),
+          change.inlineIncreased,
+          change.shapeIncreased,
+          change.inlineCount,
+          change.shapeCount,
+          (resizeResult, method) => {
+            log.info("wordPasteCountPoll: paste resize done", { result: resizeResult, method });
+            wordPastePendingKey = null;
+            if (resizeResult !== "none") {
+              setStatus(`Resized ${resizeResult} image (${method})`);
+              syncUIWithSavedSettings();
+            }
+          }
+        );
+        return;
+      }
+
+      if (now - lastSelectionAttemptAt > 800) {
+        lastSelectionAttemptAt = now;
+        selectionAdjustInFlight = true;
+        try {
+          await Word.run(async (ctx) => {
+            const res = await adjustSelectedWordObject(ctx, getResizeSettings());
+            if (res !== "none") {
+              log.info("wordPasteCountPoll: selection resized", { result: res });
+              setStatus(`Resized ${res} image (selection)`);
+              syncUIWithSavedSettings();
+            }
+          });
+        } catch (e) {
+          log.warn("wordPasteCountPoll: selection error", toLoggableError(e));
+        } finally {
+          selectionAdjustInFlight = false;
+        }
+      }
+
+      if (isMacPlatform() && now - lastGlobalScanAt > 1200) {
+        lastGlobalScanAt = now;
+        selectionAdjustInFlight = true;
+        try {
+          const result = await resizeByGlobalScan(getResizeSettings());
+          if (result !== "none") {
+            log.info("wordPasteCountPoll: global-scan resized", { result });
+            setStatus(`Resized ${result} image (global-scan)`);
             syncUIWithSavedSettings();
           }
+        } catch (e) {
+          log.warn("wordPasteCountPoll: global-scan error", toLoggableError(e));
+        } finally {
+          selectionAdjustInFlight = false;
         }
-      );
+      }
     } catch (e) {
       log.warn("wordPasteCountPoll error", toLoggableError(e));
       wordPastePendingKey = null;
@@ -595,6 +653,7 @@ async function handleToggleRefBox(): Promise<void> {
           (btn as any).style.opacity = "0.6";
           btn.title = "Reference box is not supported on this platform";
         }
+        buildUI();
         setStatus("Failed to insert reference box");
       }
     } catch (e) {
