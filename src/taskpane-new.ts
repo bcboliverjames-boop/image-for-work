@@ -41,6 +41,7 @@ interface UIState {
   refBoxActive: boolean;
   refBoxShapeName: string | null;
   refBoxPollingInterval: number | null;
+  refBoxUnsupported: boolean;
   webUnsupported: boolean;
 }
 
@@ -49,6 +50,7 @@ const uiState: UIState = {
   refBoxActive: false,
   refBoxShapeName: null,
   refBoxPollingInterval: null,
+  refBoxUnsupported: false,
   webUnsupported: false,
 };
 
@@ -59,6 +61,9 @@ let excelLastActiveShapeId: string | null = null;
 
 let excelPasteCountPollTimer: number | null = null;
 let excelPastePendingShapeCount: number | null = null;
+
+let wordPasteCountPollTimer: number | null = null;
+let wordPastePendingKey: string | null = null;
 
 let excelConfirmSeq = 0;
 let excelConfirmTimers: number[] = [];
@@ -472,6 +477,67 @@ function stopExcelPasteCountPolling(): void {
   excelPastePendingShapeCount = null;
 }
 
+function startWordPasteCountPolling(): void {
+  const log = getLog();
+  if (wordPasteCountPollTimer !== null) return;
+  wordPastePendingKey = null;
+  log.info("startWordPasteCountPolling: start");
+  wordPasteCountPollTimer = window.setInterval(async () => {
+    if (!hasOfficeContext()) return;
+    if (Office.context.host !== Office.HostType.Word) return;
+
+    const settings = getCurrentSettings();
+    if (!settings.enabled) return;
+    if (!settings.resizeOnPaste) return;
+    if (selectionAdjustInFlight) return;
+
+    try {
+      const change = await checkCountChange();
+      if (!change.inlineIncreased && !change.shapeIncreased) return;
+
+      const key = `${change.inlineCount}/${change.shapeCount}`;
+      if (wordPastePendingKey === key) return;
+      wordPastePendingKey = key;
+
+      log.info("wordPasteCountPoll: paste detected", {
+        inlineIncreased: change.inlineIncreased,
+        shapeIncreased: change.shapeIncreased,
+        inlineCount: change.inlineCount,
+        shapeCount: change.shapeCount,
+      });
+
+      handleCountIncrease(
+        getResizeSettings(),
+        change.inlineIncreased,
+        change.shapeIncreased,
+        change.inlineCount,
+        change.shapeCount,
+        (resizeResult, method) => {
+          log.info("wordPasteCountPoll: paste resize done", { result: resizeResult, method });
+          wordPastePendingKey = null;
+          if (resizeResult !== "none") {
+            setStatus(`Resized ${resizeResult} image (${method})`);
+            syncUIWithSavedSettings();
+          }
+        }
+      );
+    } catch (e) {
+      log.warn("wordPasteCountPoll error", toLoggableError(e));
+      wordPastePendingKey = null;
+    }
+  }, 300);
+}
+
+function stopWordPasteCountPolling(): void {
+  const log = getLog();
+  if (wordPasteCountPollTimer !== null) {
+    log.info("stopWordPasteCountPolling: stop");
+    window.clearInterval(wordPasteCountPollTimer);
+    wordPasteCountPollTimer = null;
+  }
+  wordPastePendingKey = null;
+}
+
 const LOCK_ICON_LOCKED = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
 const LOCK_ICON_UNLOCKED = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>`;
 const MOUSE_CURSOR_ICON = `<svg class="mouse-cursor-svg" width="24" height="24" viewBox="0 0 16 16"><rect x="1" y="1" width="10" height="8" fill="none" stroke="#E67E22" stroke-width="1.2" stroke-dasharray="2,1" rx="0.5"/><polygon points="9,7 9,14 11,12 13,15 14,14 12,11 14,10" fill="#4A7DC4"/></svg>`;
@@ -512,6 +578,7 @@ async function handleToggleRefBox(): Promise<void> {
     try {
       const shapeName = await insertReferenceBox();
       if (shapeName) {
+        uiState.refBoxUnsupported = false;
         uiState.refBoxActive = true;
         uiState.refBoxShapeName = shapeName;
         startRefBoxPolling();
@@ -522,6 +589,12 @@ async function handleToggleRefBox(): Promise<void> {
         setStatus("Reference box inserted (tip: click a cell near the screen center, then insert)");
       } else {
         log.warn("insertReferenceBox returned null");
+        uiState.refBoxUnsupported = true;
+        if (btn) {
+          btn.disabled = true;
+          (btn as any).style.opacity = "0.6";
+          btn.title = "Reference box is not supported on this platform";
+        }
         setStatus("Failed to insert reference box");
       }
     } catch (e) {
@@ -639,6 +712,12 @@ async function applySettings(): Promise<void> {
 
   setStatus("Settings saved");
   log.info("applySettings: done");
+
+  if (hasOfficeContext() && Office.context.host === Office.HostType.Word) {
+    const after = getCurrentSettings();
+    if (after.enabled && after.resizeOnPaste) startWordPasteCountPolling();
+    else stopWordPasteCountPolling();
+  }
 }
 
 async function handleSelectionChange(source: "event" | "retry" = "event"): Promise<void> {
@@ -649,6 +728,7 @@ async function handleSelectionChange(source: "event" | "retry" = "event"): Promi
 
   // 粘贴模式：Word 使用粘贴探测；Excel/PPT 使用“选中即缩放”（粘贴后通常会自动选中新图片）
   if (settings.resizeOnPaste && host === Office.HostType.Word) {
+    if (wordPasteCountPollTimer !== null) return;
     try {
       const result = await checkCountChange();
       if (result.inlineIncreased || result.shapeIncreased) {
@@ -857,6 +937,9 @@ function buildUI(): void {
   const settings = getCurrentSettings();
 
   const disabled = uiState.webUnsupported;
+  const refBoxDisabled =
+    disabled ||
+    (uiState.refBoxUnsupported && hasOfficeContext() && Office.context.host === Office.HostType.Word);
   if (uiState.webUnsupported) {
     const warnSection = createCardSection("Web version limitation");
     const warn = document.createElement("div");
@@ -929,9 +1012,10 @@ function buildUI(): void {
   refBoxBtn.id = "refBoxBtn";
   refBoxBtn.className = "draggable-size-btn";
   refBoxBtn.innerHTML = `<span class="mouse-icon">${MOUSE_CURSOR_ICON}</span> Draggable Size Setting`;
-  if (disabled) {
+  if (refBoxDisabled) {
     refBoxBtn.disabled = true;
     (refBoxBtn as any).style.opacity = "0.6";
+    if (uiState.refBoxUnsupported) refBoxBtn.title = "Reference box is not supported on this platform";
   } else {
     refBoxBtn.addEventListener("click", () => void handleToggleRefBox());
   }
@@ -1027,6 +1111,13 @@ async function initialize(): Promise<void> {
     }
   }
   await registerSelectionChangedEvent();
+  if (host === Office.HostType.Word) {
+    const settings = getCurrentSettings();
+    if (settings.enabled && settings.resizeOnPaste) startWordPasteCountPolling();
+    else stopWordPasteCountPolling();
+  } else {
+    stopWordPasteCountPolling();
+  }
   if (host === Office.HostType.Excel) {
     const settings = getCurrentSettings();
     if (settings.resizeOnSelection) {
